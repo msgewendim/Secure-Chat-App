@@ -1,8 +1,7 @@
 import styled from "styled-components"
 import { useNavigate } from "react-router-dom";
-import { BiPowerOff } from "react-icons/bi"
 import { Socket } from "socket.io-client";
-
+import { TbLogout2 } from "react-icons/tb";
 const Logout = ({ socket }: { socket: React.MutableRefObject<Socket | undefined> }) => {
   const navigate = useNavigate()
   const handleLogout = () => {
@@ -13,7 +12,8 @@ const Logout = ({ socket }: { socket: React.MutableRefObject<Socket | undefined>
   }
   return (
     <Button onClick={handleLogout}>
-      <BiPowerOff />
+      {/* <BiPowerOff /> */}
+      <TbLogout2 />
     </Button>
   )
 }

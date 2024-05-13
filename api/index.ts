@@ -1,6 +1,7 @@
 import express from 'express';
 import userRoute from './routes/userRoutes';
 import messageRoute from './routes/messageRoutes';
+import passwordRoute from './routes/passwordRoutes';
 import cors from 'cors';
 import activityLogger from './utils/middlewares/activityLogger';
 import dotenv from 'dotenv';
@@ -23,6 +24,7 @@ app.use(activityLogger);   // to log activity
 // routes
 app.use("/api/users", userRoute)
 app.use("/api/message", messageRoute)
+app.use("/api/password", passwordRoute)
 
 // connect to mongoDB and PostgresDB 
 connectToDB();
