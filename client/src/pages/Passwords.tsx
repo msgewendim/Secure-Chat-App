@@ -4,6 +4,7 @@ import axios, { AxiosResponse } from "axios";
 import { PasswordType, User } from "../utils/models";
 import { ToastContainer, toast } from "react-toastify";
 import { toastOptions } from "../utils/providers";
+
 const PasswordList = () => {
   const currentUser = JSON.parse(localStorage.getItem("chat-user")!) as User
   const [passwords, setPasswords] = useState<PasswordType[]>([])
@@ -75,9 +76,9 @@ const PasswordList = () => {
   return (
     <Container>
       {
-        passwords.length === 0 ? (
+        !passwords || !passwords.length ? (
           <div className="noPasswords">
-            <h1>No Passwords</h1>
+            <h1>No Passwords Added</h1>
           </div>
         ) :
           (

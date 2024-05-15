@@ -5,7 +5,6 @@ import Chat from "../pages/Chat";
 import Register from "../pages/Register";
 import SetAvatar from "../components/SetAvatar";
 import PasswordsList from "../pages/Passwords";
-import AddPassword from "../components/AddPassword";
 
 const router = createBrowserRouter([
   {
@@ -31,10 +30,6 @@ const router = createBrowserRouter([
       , {
         path: "passwords",
         element: <PasswordsList />
-      }
-      , {
-        path: "passwords/add",
-        element: <AddPassword />
       }
     ]
   }
