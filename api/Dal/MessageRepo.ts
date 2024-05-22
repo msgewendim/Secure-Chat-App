@@ -1,6 +1,5 @@
 import { messageModel, messageSchema } from "../Models/Message";
 import { IMessageRepo } from "../utils/interfaces/IMessageRepo";
-import pool from "../utils/DB/PostgresDB";
 
 export class MessageRepo implements IMessageRepo<typeof messageSchema> {
   async getAllMessages(
@@ -9,14 +8,16 @@ export class MessageRepo implements IMessageRepo<typeof messageSchema> {
   ): Promise<(typeof messageSchema)[] | unknown> {
     try {
       // return all messages for the sender and receiver
-      const messages = await messageModel.find({
-        "message.users": { $all: [sender, receiver] },
-      }).sort({ updatedAt: 1 });
+      const messages = await messageModel
+        .find({
+          "message.users": { $all: [sender, receiver] },
+        })
+        .sort({ updatedAt: 1 });
       if (!messages) {
         throw new Error("No Messages Found");
       }
       console.log("Messages Found", messages.length);
-      console.log("Messages Found Array", messages.slice(0,3));
+      console.log("Messages Found Array", messages.slice(0, 3));
       const convertedMessages = messages.map((msg) => {
         return {
           fromSelf: msg.message?.sender === sender,

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { UserBL } from "../BL/UserBL";
+import { UserBL } from "../BL/UserBLMongo";
 
 export class UserController {
   private userBL : UserBL
@@ -9,7 +9,7 @@ export class UserController {
   
   async getAllUsers(req: Request, res: Response) {
     try{
-      const id = +req.params.id
+      const id = req.params._id
       const users = await this.userBL.getAllUsers(id);
       if(users.length === 0){
         res.status(200).json({ message : "Users Not Found In Database"})
@@ -33,7 +33,7 @@ export class UserController {
   async updateUser(req: Request, res: Response) {
     try{
       const updatedUserData = req.body;
-      const id = +req.params.id
+      const id = req.params._id
       const user = await this.userBL.updateUser(id, updatedUserData);
       res.status(200).json({message : "User Updated Successfully", user});
     } catch(error){
@@ -43,7 +43,7 @@ export class UserController {
 
   async deleteUser(req: Request, res: Response) {
     try {
-      const id = +req.params.id
+      const id = req.params._id
       await this.userBL.deleteUser(id);
       res.status(200).json({message : "User Deleted Successfully"});
     } catch (error) {
@@ -53,7 +53,7 @@ export class UserController {
 
   async getUserById(req: Request, res: Response) {  
     try{
-      const id = +req.params.id
+      const id = req.params.id
       const user = await this.userBL.getUserById(id);
       res.status(200).json(user);
     } catch (error) {
