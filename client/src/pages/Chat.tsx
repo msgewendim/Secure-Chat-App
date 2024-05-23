@@ -18,7 +18,7 @@ const Chat = () => {
   useEffect(() => {
     if (currentUser) {
       socket.current = io("http://localhost:8000");
-      socket.current.emit("add-user", currentUser.id);
+      socket.current.emit("add-user", currentUser._id);
     }
   }, [currentUser])
   
@@ -37,8 +37,8 @@ const Chat = () => {
   }
   const getContacts = async () => {
     if (currentUser) {
-      if (currentUser.image !== "" || currentUser.image !== null) {
-        const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/users/contacts/${currentUser.id}`)
+      if (currentUser.image !== "" || currentUser.image !== null || currentUser.image !== undefined) {
+        const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/users/contacts/${currentUser._id}`)
         setContacts(data);
       } else {
         navigate("/setAvatar")
@@ -48,7 +48,7 @@ const Chat = () => {
   useEffect(() => {
     getContacts()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUser])
+  }, [currentUser, ])
   return (
     <Container>
       <div className="container">

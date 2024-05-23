@@ -13,19 +13,23 @@ export class MessageController {
       // if (result === 0) {
       //   res.status(200).json({ message: "No Messages Found" });
       // }
-      res.status(200).json({ message: "Messages Fetched Successfully", messages });
+      res
+        .status(200)
+        .json({ message: "Messages Fetched Successfully", messages });
     } catch (error) {
       res.status(400).json({ message: (error as Error).message, error });
     }
   }
-  
+
   async createMessage(req: Request, res: Response) {
     try {
-      const { sender , receiver, message } = req.body;
-      const result = await this.messageBL.createMessage(sender as number, receiver as number, message as string);
-      res
-        .status(201)
-        .json({ message: "Message Created Successfully",  result});
+      const { sender, receiver, message } = req.body;
+      const result = await this.messageBL.createMessage(
+        sender as string,
+        receiver as string,
+        message
+      );
+      res.status(201).json({ message: "Message Created Successfully", result });
     } catch (error) {
       res.status(400).json({ message: (error as Error).message, error });
     }

@@ -18,8 +18,8 @@ export class PasswordBL {
       }
       const passwordObj = new Password(
         hashedPassword as string,
-        userID ? (userID as number) : NaN,
-        name ? (name as string) : ""
+        userID ? userID : '',
+        name ? name : ""
       );
       const result = await this.passwordRepo.updatePassword(id, passwordObj) as Password;
       if(!result) throw new Error("Password Not Found");
@@ -79,7 +79,7 @@ export class PasswordBL {
     }
   }
 
-  async getAllPasswordOfUser(userID: number, page: number) {
+  async getAllPasswordOfUser(userID: string, page: number) {
     try {
       const result = await this.passwordRepo.getAllPasswordsOfUser(userID, page) as Password[];
       const decryptedPasswords = result.map((password : Password) => {

@@ -15,8 +15,8 @@ const ChatContainer = ({ currentChat, currentUser, socket }: { currentChat: User
     const getMessages = async () => {
       if (currentChat) {  
         const response : AxiosResponse = await axios.post(`${import.meta.env.VITE_API_URL}/message/getMessages`, {
-          sender: currentUser.id,
-          receiver: currentChat.id
+          sender: currentUser._id,
+          receiver: currentChat._id
         })
         const {data} = response
         setMessages(data.messages)
@@ -28,16 +28,16 @@ const ChatContainer = ({ currentChat, currentUser, socket }: { currentChat: User
 
   const sendMsg = async (message : string) => {
     await axios.post(`${import.meta.env.VITE_API_URL}/message/addMsg`, {
-      sender: currentUser.id,
-      receiver: currentChat.id,
+      sender: currentUser._id,
+      receiver: currentChat._id,
       message,
     });
 
     // console.log(data.result.message.text); // added message text
     if(socket.current) {
       socket.current.emit("send-message",{
-        sender: currentUser.id,
-        receiver: currentChat.id,
+        sender: currentUser._id,
+        receiver: currentChat._id,
         message,
       });   // send message to socket server
       

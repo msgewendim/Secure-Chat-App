@@ -5,7 +5,7 @@ import { IUserRepo } from "../utils/interfaces/IUserRepo";
 export class UserRepo implements IUserRepo<UserMongo> {
   async getAllUsers(id?: string): Promise<UserMongo[]> {
     const users = (await userModel.find({}).select("-password")) as UserMongo[];
-    console.log(users.slice(0, 3), "get all users from REPO");
+    console.log(users.length, "get all users from REPO");
     return users;
   }
   async getUserById(id: string): Promise<UserMongo> {

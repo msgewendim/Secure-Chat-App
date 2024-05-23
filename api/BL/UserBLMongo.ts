@@ -1,3 +1,4 @@
+import { ObjectId } from "mongodb";
 import { UserRepo } from "../Dal/UserRepoMongo";
 import { UserMongo } from "../Models/User";
 import bcrypt from "bcrypt";
@@ -18,11 +19,10 @@ export class UserBL {
       // return all users without current user
       if (id) {
         console.log("returns all users except user with id", id);
-        return result.filter((user) => user._id !== id);
-      } else {
-        console.log("returns all users (including user with id)");
-        return result as UserMongo[];
+        return result.filter(user => id !== user._id?.toString());
       }
+      console.log("returns all users (including user with id)");
+      return result;
     } catch (error) {
       throw error;
     }
@@ -110,7 +110,7 @@ export class UserBL {
         throw new Error("Invalid Password");
       }
       // return user without password
-      const validUser = await this.userRepo.getUserById(user._id as string);
+      const validUser = await this.userRepo.getUserById(user._id?.toString() as string);
       return validUser;
     } catch (error) {
       throw error;
@@ -124,7 +124,12 @@ export class UserBL {
       const { email, name } = googleUser as GoogleUser;
       const user = await this.userRepo.getUserByEmail(email);
       if (!user) {
-        const newUser = { username: name, email, image: "", password: "" } as UserMongo;
+        const newUser = {
+          username: name,
+          email,
+          image: "",
+          password: "",
+        } as UserMongo;
         const result = await this.userRepo.createUser(newUser);
         console.log(result, "created user result");
         return result;
