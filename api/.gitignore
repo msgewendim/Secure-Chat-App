@@ -13,6 +13,7 @@ out
 dist-ssr
 *.local
 .env
+SQL
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

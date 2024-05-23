@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 class Password {
   password: string;
-  userID: number;
+  userID: string;
   name: string;
-  constructor(password: string, userID: number, name: string) {
+  constructor(password: string, userID: string, name: string) {
     this.password = password;
     this.userID = userID;
     this.name = name;
@@ -18,7 +18,7 @@ const PasswordSchema = new mongoose.Schema(
       required: true,
     },
     userID: {
-      type: Number,
+      type: String,
       required: true,
     },
     name: {

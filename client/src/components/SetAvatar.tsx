@@ -20,9 +20,11 @@ const SetAvatar = () => {
       return;
     }
     try {
-      const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/users/setAvatar/${currentUser.id}`, {
+      const response = await axios.put(`${import.meta.env.VITE_API_URL}/users/setAvatar/${currentUser._id}`, {
         image: avatars[selectedAvatar],
       });
+      console.log(response);
+      const { data } = response
       if (!data) {
         toast.error("Error while setting avatar try again", toastOptions);
         return;
@@ -38,9 +40,9 @@ const SetAvatar = () => {
   useEffect(() => {     // check if user is logged-in => redirect to home else redirect to login
     if (!currentUser) {
       navigate("/login");
-    } else if (currentUser.image === null || currentUser.image === "") {
+    } else if (currentUser.image === null || currentUser.image === "" || currentUser.image === undefined) {
       navigate("/setAvatar");
-    } else {
+    } else {  
       navigate("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -11,6 +11,10 @@ node_modules
 dist
 dist-ssr
 *.local
+\Password.tsx
+\Password
+\AddPassword.tsx
+\AddPassword
 .env
 # Editor directories and files
 .vscode/*

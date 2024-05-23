@@ -4,6 +4,7 @@ import axios, { AxiosResponse } from "axios";
 import { PasswordType, User } from "../utils/models";
 import { ToastContainer, toast } from "react-toastify";
 import { toastOptions } from "../utils/providers";
+
 const PasswordList = () => {
   const currentUser = JSON.parse(localStorage.getItem("chat-user")!) as User
   const [passwords, setPasswords] = useState<PasswordType[]>([])
@@ -12,7 +13,7 @@ const PasswordList = () => {
   const getPassword = async () => {
     if (currentUser) {
       try {
-        const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/password/getAll/${currentUser.id}?page=${page}`)
+        const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/password/getAll/${currentUser._id}?page=${page}`)
         const { passwords } = data
         setPasswords(passwords)
       } catch (error) {
@@ -26,7 +27,7 @@ const PasswordList = () => {
   }, [page])
   // const currentUser: User = JSON.parse(localStorage.getItem("chat-user")!) as User
   useEffect(() => {
-    setPassword({ ...password, userID: currentUser.id })
+    setPassword({ ...password, userID: currentUser._id })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -75,9 +76,9 @@ const PasswordList = () => {
   return (
     <Container>
       {
-        passwords.length === 0 ? (
+        !passwords || !passwords.length ? (
           <div className="noPasswords">
-            <h1>No Passwords</h1>
+            <h1>No Passwords Added</h1>
           </div>
         ) :
           (
@@ -103,7 +104,6 @@ const PasswordList = () => {
       <form className="form" onSubmit={(e) => handleSubmit(e)}>
         <h1>Add Password</h1>
         <div className="input">
-
           <input type="text" placeholder="Name" name="name" required onChange={(e) => handleChange(e)} />
           <input type="text" placeholder="Password" name="password" onChange={(e) => handleChange(e)} />
         </div>

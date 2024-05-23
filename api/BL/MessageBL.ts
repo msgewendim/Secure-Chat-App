@@ -9,7 +9,7 @@ export class MessageBL {
     this.messageRepo = messageRepo  
   }
 
-  async getAllMessages(sender: number, receiver: number): Promise<typeof messageSchema[] | unknown> {
+  async getAllMessages(sender: string, receiver: string): Promise<typeof messageSchema[] | unknown> {
     try {
       const result = this.messageRepo.getAllMessages(sender, receiver)
       if(!result) {
@@ -21,7 +21,7 @@ export class MessageBL {
     }
   } 
   
-  async createMessage(sender : number, receiver : number, message : string): Promise<typeof messageSchema | unknown> {
+  async createMessage(sender : string, receiver : string, message : string): Promise<typeof messageSchema | unknown> {
     try {
       // send to db for storage
       const createdMessage = await this.messageRepo.createMessage(message , [sender, receiver], sender)
