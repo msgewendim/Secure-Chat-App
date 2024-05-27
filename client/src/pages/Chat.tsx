@@ -17,7 +17,7 @@ const Chat = () => {
 
   useEffect(() => {
     if (currentUser) {
-      socket.current = io("http://localhost:8000");
+      socket.current = io(import.meta.env.VITE_API_URL.slice(-4) as string);
       socket.current.emit("add-user", currentUser._id);
     }
   }, [currentUser])
