@@ -14,7 +14,7 @@ const PORT = process.env.PORT;
 export const app = express();
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://peppy-scone-530470.netlify.app",
+  "https://secure-chat-app-msganaw.netlify.app",
 ];
 
 const corsOptions: CorsOptions = {
