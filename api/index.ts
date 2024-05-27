@@ -2,7 +2,7 @@ import express from "express";
 import userRoute from "./routes/userRoutes";
 import messageRoute from "./routes/messageRoutes";
 import passwordRoute from "./routes/passwordRoutes";
-import cors from "cors";
+import cors, { CorsOptions } from "cors";
 import activityLogger from "./utils/middlewares/activityLogger";
 import dotenv from "dotenv";
 import connectToDB from "./utils/DB/MongoDB/MongoDB";
@@ -12,15 +12,25 @@ dotenv.config();
 
 const PORT = process.env.PORT;
 export const app = express();
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://peppy-scone-530470.netlify.app",
+];
+
+const corsOptions: CorsOptions = {
+  origin(requestOrigin, callback) {
+    if (allowedOrigins.includes(requestOrigin as string)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"), false);
+    }
+  },
+  credentials: true, // if need to include credentials like cookies in the requests
+};
 
 // middlewares
 app.use(express.json()); // to accept json data
-app.use(
-  cors({
-    origin: process.env.FRONTEND_URL,
-    credentials: true,
-  })
-); // to allow cors
+app.use(cors(corsOptions)); // to allow cors
 app.use(activityLogger); // to log activity
 
 // routes
