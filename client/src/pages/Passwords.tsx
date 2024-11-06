@@ -10,6 +10,8 @@ const PasswordList = () => {
   const [passwords, setPasswords] = useState<PasswordType[]>([])
   const [password, setPassword] = useState({})
   const [page, setPage] = useState(1)
+  // const [submitted, setSubmitted] = useState(false)
+
   const getPassword = async () => {
     if (currentUser) {
       try {
@@ -46,9 +48,8 @@ const PasswordList = () => {
         )
         const { message } = data
         toast.success(message, toastOptions)
-
         // Clear form
-        e.currentTarget && (e.target as HTMLFormElement).reset()  
+        e.target && (e.target as HTMLFormElement).reset()
       } catch (error) {
         toast.error(error as string, toastOptions)
       }
@@ -56,6 +57,7 @@ const PasswordList = () => {
     // REFRESH PASSWORDS  
     getPassword()
   }
+
   const decryptPassword = async (encryptedPassword: PasswordType) => {
     try {
       const { _doc } = encryptedPassword
@@ -72,7 +74,7 @@ const PasswordList = () => {
     } catch (error) {
       toast.error(error as string, toastOptions)
     }
-  }
+  } 
   return (
     <Container>
       {
@@ -104,8 +106,8 @@ const PasswordList = () => {
       <form className="form" onSubmit={(e) => handleSubmit(e)}>
         <h1>Add Password</h1>
         <div className="input">
-          <input type="text" placeholder="Name" name="name" required onChange={(e) => handleChange(e)} />
-          <input type="text" placeholder="Password" name="password" onChange={(e) => handleChange(e)} />
+          <input type="text" placeholder="Name" name="name" id="inputName" required onChange={(e) => handleChange(e)} />
+          <input type="text" placeholder="Password" name="password" id="inputPassword" onChange={(e) => handleChange(e)} />
         </div>
         <button type="submit">Add Password</button>
       </form>
@@ -134,7 +136,7 @@ const Container = styled.div`
     background-color: #131324;
     color: white;
     width: 500px;
-    height: 600px;
+    height: 500px;
     position: relative;
 
     h1 {
@@ -171,7 +173,7 @@ const Container = styled.div`
     background-color: #131324;
     color: white;
     width: 500px;
-    height: 600px;
+    height: 500px;
     position: relative;
 
     .input {
@@ -206,7 +208,7 @@ const Container = styled.div`
       font-size: 1rem;
       box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
       position: absolute;
-      bottom: 300px;
+      bottom: 200px;
     }
   }
   button {
