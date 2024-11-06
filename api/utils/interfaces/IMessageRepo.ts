@@ -1,4 +1,4 @@
 export interface IMessageRepo<M> {
-  getAllMessages(sender: number, receiver: number): Promise<M[] | unknown>
-  createMessage(text : string, users: Array<number>, sender: number): Promise<M | unknown>
+  getAllMessages(sender: string, receiver: string): Promise<M[] | unknown>
+  createMessage(text : string, users: Array<string>, sender: string): Promise<M | unknown>
 }

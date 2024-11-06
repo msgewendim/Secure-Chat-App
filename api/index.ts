@@ -1,30 +1,44 @@
 import express from "express";
 import userRoute from "./routes/userRoutes";
 import messageRoute from "./routes/messageRoutes";
-import cors from "cors";
+import passwordRoute from "./routes/passwordRoutes";
+import cors, { CorsOptions } from "cors";
 import activityLogger from "./utils/middlewares/activityLogger";
 import dotenv from "dotenv";
-import connectToDB from "./utils/DB/MongoDB";
+import connectToDB from "./utils/DB/MongoDB/MongoDB";
 import { Server, Socket } from "socket.io";
 import global from "./utils/interfaces/global";
+dotenv.config();
 dotenv.config();
 
 const PORT = process.env.PORT;
 export const app = express();
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://secure-chat-15h0qsdfu-msganaws-projects.vercel.app",
+];
+
+const corsOptions: CorsOptions = {
+  origin(requestOrigin, callback) {
+    if (!requestOrigin) return callback(null, true);
+    if (allowedOrigins.includes(requestOrigin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"), false);
+    }
+  },
+  credentials: true, // if need to include credentials like cookies in the requests
+};
 
 // middlewares
 app.use(express.json()); // to accept json data
-app.use(
-  cors({
-    origin: "*",
-    credentials: true,
-  })
-); // to allow cors
+app.use(cors(corsOptions)); // to allow cors
 app.use(activityLogger); // to log activity
 
 // routes
 app.use("/api/users", userRoute);
 app.use("/api/message", messageRoute);
+app.use("/api/password", passwordRoute);
 
 // connect to mongoDB and PostgresDB
 connectToDB();
@@ -54,27 +68,27 @@ io.on("connection", (socket: Socket) => {
   });
 
   socket.on("send-message", (data: any) => {
-    // Add type safety
-    if (!data || typeof data.receiver !== "number") {
-      return;
-    }
-
+    console.log(data);
     const sendUserSocket = global.onlineUser.get(data.receiver);
     if (sendUserSocket) {
+      socket.to(sendUserSocket).emit("receive-message", data.message);
       socket.to(sendUserSocket).emit("receive-message", data.message);
     }
   });
 
-  // Add disconnect handler
-  socket.on("disconnect", () => {
-    // Remove user from online users
-    for (const [userId, socketId] of global.onlineUser.entries()) {
-      if (socketId === socket.id) {
-        global.onlineUser.delete(userId);
-        io.emit("user-offline", userId);
-        break;
-      }
-    }
+  socket.on("logout", () => {
     console.log("user disconnected");
+    // Add disconnect handler
+    socket.on("disconnect", () => {
+      // Remove user from online users
+      for (const [userId, socketId] of global.onlineUser.entries()) {
+        if (socketId === socket.id) {
+          global.onlineUser.delete(userId);
+          io.emit("user-offline", userId);
+          break;
+        }
+      }
+      console.log("user disconnected");
+    });
   });
 });

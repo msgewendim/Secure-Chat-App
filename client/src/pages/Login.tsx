@@ -85,7 +85,6 @@ const FormContainer = styled.div`
   justify-content: center;  // center align the form elements
   gap: 1rem;    
   align-items: center;    // center align the form elements
-  // background-color: #04254e;   // black color with 10% opacity
   background: linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.15) 100%), radial-gradient(at top center, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.40) 120%) #989898;
   background-blend-mode: multiply,multiply;
 
@@ -118,7 +117,7 @@ const FormContainer = styled.div`
     padding: 1rem;                  // 1rem padding for the input elements
     border: 0.1rem solid #5954a4;   
     border-radius: 0.4rem;
-    color: black;                   // white color for the input elements
+    color: white;                   // white color for the input elements
     width: 100%;
     font-size: 1rem;
     
