@@ -28,7 +28,7 @@ export class PasswordRepo {
 
   async getAllPasswordsOfUser(userID : string, page : number) : Promise<typeof passwordModel[] | unknown> {
     try {
-      const LIMIT = 6
+      const LIMIT = 5
       if(!page){
         page = 1
       }
