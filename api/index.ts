@@ -16,6 +16,7 @@ export const app = express();
 const allowedOrigins = [
   "http://localhost:5173",
   "https://secure-chat-15h0qsdfu-msganaws-projects.vercel.app",
+  "https://secure-chat-app-v1.onrender.com",
 ];
 
 const corsOptions: CorsOptions = {
